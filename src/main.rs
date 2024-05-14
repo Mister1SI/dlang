@@ -2,8 +2,9 @@
 // Contains logic for processing cl arguments and invoking the compiler
 
 use std::env;
+use dlang::compile;
 
-fn main() -> Result<(), ()> {
+fn main() -> Result<(), std::io::ErrorKind> {
     let args: Vec<String> = env::args().collect();
     let mut input_files: Vec<String> = Vec::new();
     let mut options: Vec<String> = Vec::new();
@@ -32,6 +33,12 @@ fn main() -> Result<(), ()> {
             
         }
     } // End args processing
+    match compile(input_files, options, flags) {
+        Ok(_) => (),
+        Err(e) => {
+            return Err(e.kind());
+        }
+    };
     
     Ok(())
 }
