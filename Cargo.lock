@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "my-project"
+name = "dlang"
 version = "0.1.0"
