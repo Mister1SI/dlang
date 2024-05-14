@@ -5,28 +5,34 @@ use std::env;
 
 fn main() -> Result<(), ()> {
     let args: Vec<String> = env::args().collect();
+    let mut input_files: Vec<String> = Vec::new();
+    let mut options: Vec<String> = Vec::new();
+    let mut flags: String = String::new();
     if args.len() == 1 {
         print_help();
         return Ok(());
     } else {
         for arg in &args[1..] { 
             if arg.starts_with("--") {
-                println!("Option: {}", arg);
+                options.push(arg[2..].to_string());
             } else if arg.starts_with('-') {
                 for flag in arg[1..].chars() {
                     match flag {
                         'h' => print_help(),
                         'v' => println!("dlang version {}", env::var("CARGO_PKG_VERSION").unwrap()),
+                        'e'|'l' => {
+                            flags.push(flag);
+                        }
                         _ => println!("Unknown flag {}.", flag),
                     }
                 }
             } else {
-                println!("File supplied: {}", arg);
+                input_files.push(arg.to_string());
             }
             
         }
     } // End args processing
-
+    
     Ok(())
 }
 
