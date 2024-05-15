@@ -1,8 +1,8 @@
 // dlang bin crate root
 // Contains logic for processing cl arguments and invoking the compiler
 
-use std::env;
 use dlang::compile;
+use std::env;
 
 fn main() -> Result<(), std::io::ErrorKind> {
     let args: Vec<String> = env::args().collect();
@@ -13,7 +13,7 @@ fn main() -> Result<(), std::io::ErrorKind> {
         print_help();
         return Ok(());
     } else {
-        for arg in &args[1..] { 
+        for arg in &args[1..] {
             if arg.starts_with("--") {
                 options.push(arg[2..].to_string());
             } else if arg.starts_with('-') {
@@ -21,7 +21,7 @@ fn main() -> Result<(), std::io::ErrorKind> {
                     match flag {
                         'h' => print_help(),
                         'v' => println!("dlang version {}", env::var("CARGO_PKG_VERSION").unwrap()),
-                        'e'|'l' => {
+                        'e' | 'l' => {
                             flags.push(flag);
                         }
                         _ => println!("Unknown flag {}.", flag),
@@ -30,7 +30,6 @@ fn main() -> Result<(), std::io::ErrorKind> {
             } else {
                 input_files.push(arg.to_string());
             }
-            
         }
     } // End args processing
     match compile(input_files, options, flags) {
@@ -39,7 +38,7 @@ fn main() -> Result<(), std::io::ErrorKind> {
             return Err(e.kind());
         }
     };
-    
+
     Ok(())
 }
 
